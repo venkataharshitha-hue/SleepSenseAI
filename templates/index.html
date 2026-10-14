@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block title %}SleepSenseAI - Intelligent Sleep & Stress Monitoring{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-left">
+
+            <span class="tag">
+                AI Powered Healthcare Platform
+            </span>
+
+            <h1>
+                Predict Stress Levels Using
+                Sleep Intelligence
+            </h1>
+
+            <p>
+
+                SleepSenseAI combines Artificial Intelligence,
+                Machine Learning and Physiological Sleep Data
+                to help users understand stress levels,
+                improve wellness and maintain healthy sleep habits.
+
+            </p>
+
+            <div class="hero-buttons">
+    <a href="/register" class="btn-primary">
+        Get Started
+    </a>
+
+    <a href="/login" class="btn-secondary">
+        Login
+    </a>
+</div>
+
+        </div>
+
+        <div class="hero-right">
+
+            <img
+    src="{{ url_for('static', filename='images/hero.jpg') }}"
+    alt="SleepSenseAI sleep wellness and intelligent health monitoring">
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="features">
+
+    <h2>
+        Powerful Features
+    </h2>
+
+    <p>
+        Designed for modern health monitoring.
+    </p>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-brain"></i>
+
+            <h3>
+                AI Prediction
+            </h3>
+
+            <p>
+                Predict stress levels using machine learning models.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-bed"></i>
+
+            <h3>
+                Sleep Tracking
+            </h3>
+
+            <p>
+                Monitor sleep quality and sleeping habits.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-heart-pulse"></i>
+
+            <h3>
+                Health Analytics
+            </h3>
+
+            <p>
+                Analyze physiological health parameters.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h3>
+                Family Monitoring
+            </h3>
+
+            <p>
+                Connect trusted family members for alerts.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STATS -->
+
+<section class="stats">
+
+    <div class="stat-card">
+
+        <h2 class="counter" data-target="1000">
+            0
+        </h2>
+
+        <p>
+            Active Users
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2 class="counter" data-target="5000">
+            0
+        </h2>
+
+        <p>
+            Predictions Generated
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h2 class="counter" data-target="98">
+            0
+        </h2>
+
+        <p>
+            Accuracy %
+        </p>
+
+    </div>
+
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="workflow">
+
+    <h2>
+        How SleepSenseAI Works
+    </h2>
+
+    <div class="workflow-grid">
+
+        <div class="step">
+
+            <span>1</span>
+
+            <h3>
+                Enter Sleep Data
+            </h3>
+
+        </div>
+
+        <div class="step">
+
+            <span>2</span>
+
+            <h3>
+                AI Analysis
+            </h3>
+
+        </div>
+
+        <div class="step">
+
+            <span>3</span>
+
+            <h3>
+                Stress Prediction
+            </h3>
+
+        </div>
+
+        <div class="step">
+
+            <span>4</span>
+
+            <h3>
+                Personalized Insights
+            </h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <h2>
+        Start Your Wellness Journey Today
+    </h2>
+
+    <p>
+        Join SleepSenseAI and experience
+        intelligent health monitoring.
+    </p>
+
+    <a href="/register" class="btn-primary">
+
+        Create Free Account
+
+    </a>
+
+</section>
+
+{% endblock %}

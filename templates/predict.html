@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block title %}AI Stress Prediction | SleepSenseAI{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-brain"></i>
+            SleepSenseAI
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="/dashboard">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="/predict">
+                <i class="fa-solid fa-microchip"></i>
+                Predict Stress
+            </a>
+
+            <a href="/history">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+            </a>
+
+            <a href="/profile">
+                <i class="fa-solid fa-user"></i>
+                Profile
+            </a>
+
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <div class="page-title">
+
+            <h1>
+                AI Stress Prediction
+            </h1>
+
+            <p>
+                Enter physiological sleep parameters to predict stress level.
+            </p>
+
+        </div>
+
+        <div class="predict-container">
+
+            <form
+                action="/predict"
+                method="POST"
+                onsubmit="startPredictionLoader()">
+
+                <div class="predict-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Heart Rate (BPM)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="heart_rate"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Respiratory Rate
+                        </label>
+
+                        <input
+                            type="number"
+                            name="respiratory_rate"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Body Temperature (°F)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.1"
+                            name="body_temperature"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Blood Oxygen (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="blood_oxygen"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Sleep Hours
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.1"
+                            name="sleep_hours"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Emotional State (1-10)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="1"
+                            max="10"
+                            name="emotional_state"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Lifestyle Score (1-10)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="1"
+                            max="10"
+                            name="lifestyle_score"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="predict-btn">
+
+                    <i class="fa-solid fa-brain"></i>
+                    Analyze with AI
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Loader -->
+
+        <div
+            id="loader"
+            style="
+            display:none;
+            justify-content:center;
+            align-items:center;
+            margin-top:30px;">
+
+            <div
+                style="
+                background:white;
+                padding:25px;
+                border-radius:15px;
+                box-shadow:0 10px 25px rgba(0,0,0,.1);">
+
+                <i
+                class="fa-solid fa-spinner fa-spin"
+                style="
+                font-size:2rem;
+                color:#2563eb;">
+                </i>
+
+                <p style="margin-top:10px;">
+                    AI Model Processing...
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Information Card -->
+
+        <div
+            class="chart-container"
+            style="margin-top:25px;">
+
+            <h3>
+                Input Guidelines
+            </h3>
+
+            <br>
+
+            <ul
+            style="
+            padding-left:20px;">
+
+                <li>
+                    Heart Rate:
+                    60–100 BPM
+                </li>
+
+                <li>
+                    Respiratory Rate:
+                    12–20 breaths/min
+                </li>
+
+                <li>
+                    Body Temperature:
+                    97–99°F
+                </li>
+
+                <li>
+                    Blood Oxygen:
+                    95–100%
+                </li>
+
+                <li>
+                    Sleep Hours:
+                    7–9 hours
+                </li>
+
+                <li>
+                    Emotional State:
+                    1 = Very Calm,
+                    10 = Extremely Stressed
+                </li>
+
+                <li>
+                    Lifestyle Score:
+                    1 = Poor,
+                    10 = Excellent
+                </li>
+
+            </ul>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

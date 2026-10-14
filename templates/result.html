@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction Result | SleepSenseAI{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-brain"></i>
+            SleepSenseAI
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="/dashboard">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="/predict">
+                <i class="fa-solid fa-microchip"></i>
+                Predict Stress
+            </a>
+
+            <a href="/history">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+            </a>
+
+            <a href="/profile">
+                <i class="fa-solid fa-user"></i>
+                Profile
+            </a>
+
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <div class="page-title">
+
+            <h1>
+                AI Prediction Result
+            </h1>
+
+            <p>
+                Stress analysis completed successfully.
+            </p>
+
+        </div>
+
+        <div class="result-wrapper">
+
+            <div class="result-card">
+
+                <h1>
+                    Predicted Stress Level
+                </h1>
+
+                {% if stress == "Low" %}
+
+                    <h2 class="stress-low">
+                        LOW STRESS
+                    </h2>
+
+                    <div class="score-circle">
+                        92%
+                    </div>
+
+                {% elif stress == "Moderate" %}
+
+                    <h2 class="stress-medium">
+                        MODERATE STRESS
+                    </h2>
+
+                    <div class="score-circle">
+                        74%
+                    </div>
+
+                {% else %}
+
+                    <h2 class="stress-high">
+                        HIGH STRESS
+                    </h2>
+
+                    <div class="score-circle">
+                        48%
+                    </div>
+
+                {% endif %}
+
+                <p style="margin-top:20px;">
+
+                    Based on the provided physiological
+                    sleep parameters, the AI model has
+                    generated the above prediction.
+
+                </p>
+
+            </div>
+
+            <!-- Analytics Cards -->
+
+            <div
+            class="dashboard-cards"
+            style="margin-top:25px;">
+
+                <div class="dashboard-card">
+
+                    <h4>
+                        Wellness Score
+                    </h4>
+
+                    <h2>
+                        84
+                    </h2>
+
+                    <p>
+                        Above Average
+                    </p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <h4>
+                        Sleep Quality
+                    </h4>
+
+                    <h2>
+                        Good
+                    </h2>
+
+                    <p>
+                        Stable Pattern
+                    </p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <h4>
+                        AI Confidence
+                    </h4>
+
+                    <h2>
+                        94%
+                    </h2>
+
+                    <p>
+                        Reliable Prediction
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Recommendations -->
+
+            <div
+            class="chart-container"
+            style="margin-top:25px;">
+
+                <h3>
+                    Personalized Recommendations
+                </h3>
+
+                <div class="recommendations">
+
+                    {% if stress == "Low" %}
+
+                    <ul>
+
+                        <li>
+                            Maintain current sleep schedule.
+                        </li>
+
+                        <li>
+                            Continue regular exercise.
+                        </li>
+
+                        <li>
+                            Stay hydrated.
+                        </li>
+
+                        <li>
+                            Maintain work-life balance.
+                        </li>
+
+                    </ul>
+
+                    {% elif stress == "Moderate" %}
+
+                    <ul>
+
+                        <li>
+                            Aim for 7–8 hours sleep daily.
+                        </li>
+
+                        <li>
+                            Reduce caffeine consumption.
+                        </li>
+
+                        <li>
+                            Practice mindfulness exercises.
+                        </li>
+
+                        <li>
+                            Take regular breaks during work.
+                        </li>
+
+                    </ul>
+
+                    {% else %}
+
+                    <ul>
+
+                        <li>
+                            Consult a healthcare professional.
+                        </li>
+
+                        <li>
+                            Improve sleep consistency.
+                        </li>
+
+                        <li>
+                            Reduce stress triggers.
+                        </li>
+
+                        <li>
+                            Practice meditation daily.
+                        </li>
+
+                        <li>
+                            Increase physical activity.
+                        </li>
+
+                    </ul>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Action Buttons -->
+
+            <div
+            style="
+            margin-top:25px;
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;">
+
+                <a
+                href="/predict"
+                class="btn-primary">
+
+                    New Prediction
+
+                </a>
+
+                <a
+                href="/history"
+                class="btn-secondary">
+
+                    View History
+
+                </a>
+
+                <button
+                class="btn-secondary"
+                onclick="window.print()">
+
+                    Download Report
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

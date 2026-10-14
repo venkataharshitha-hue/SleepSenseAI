@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleep Analytics | SleepSenseAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="main-content">
+    <h1>Sleep Analytics</h1>
+    <p>Review your recorded sleep duration.</p>
+
+    <div class="dashboard-cards">
+        <div class="dashboard-card">
+            <h4>Average Sleep</h4>
+            <h2>
+                {% if avg_sleep is not none %}
+                    {{ avg_sleep }} hours
+                {% else %}
+                    No data
+                {% endif %}
+            </h2>
+            <p>Average across saved predictions</p>
+        </div>
+
+        <div class="dashboard-card">
+            <h4>Recorded Assessments</h4>
+            <h2>{{ total_records }}</h2>
+            <p>Measurements containing sleep duration</p>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <h3>Recent Sleep Trend</h3>
+
+        <div style="position: relative; height: 320px;">
+            <canvas id="sleepAnalysisChart"></canvas>
+        </div>
+
+        {% if not recent %}
+            <p>No sleep data yet. Submit a prediction to populate this chart.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('dashboard') }}" class="btn-primary">Back to Dashboard</a>
+</div>
+
+<script>
+    const labels = {{ recent | map(attribute='sleep_date') | list | reverse | list | tojson }};
+    const values = {{ recent | map(attribute='avg_sleep') | list | reverse | list | tojson }};
+
+    new Chart(document.getElementById("sleepAnalysisChart"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Average Sleep (hours)",
+                data: values,
+                borderColor: "#6366f1",
+                backgroundColor: "rgba(99, 102, 241, 0.15)",
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: "Hours"
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | SleepSenseAI{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-brain"></i>
+            SleepSenseAI
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="/dashboard" class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="/predict">
+                <i class="fa-solid fa-microchip"></i>
+                Predict Stress
+            </a>
+
+            <a href="/sleep_analysis">
+                <i class="fa-solid fa-moon"></i>
+                Sleep Analytics
+            </a>
+
+            <a href="/family">
+                <i class="fa-solid fa-users"></i>
+                Family & Friends
+            </a>
+
+            <a href="/notifications">
+                <i class="fa-solid fa-bell"></i>
+                Notifications
+            </a>
+
+            <a href="/history">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+            </a>
+
+            <a href="/profile">
+                <i class="fa-solid fa-user"></i>
+                Profile
+            </a>
+
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <div class="page-title">
+            <h1 id="greeting">Welcome!</h1>
+
+            <p>
+                Welcome back,
+                <strong>{{ name }}</strong>
+            </p>
+
+            <p>
+                Here is an overview of your recorded sleep
+                and stress predictions.
+            </p>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="dashboard-cards">
+
+            <div class="dashboard-card">
+                <h4>Total Predictions</h4>
+                <h2>{{ total_predictions }}</h2>
+                <p>Your recorded assessments</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h4>Average Sleep</h4>
+                <h2>
+                    {% if avg_sleep is not none %}
+                        {{ avg_sleep }} hrs
+                    {% else %}
+                        --
+                    {% endif %}
+                </h2>
+                <p>Based on your recorded assessments</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h4>Latest Stress Level</h4>
+                <h2>{{ latest_stress or '--' }}</h2>
+                <p>Most recent model prediction</p>
+            </div>
+
+            <div class="dashboard-card">
+                <h4>Recorded Sleep Days</h4>
+                <h2>{{ sleep_labels|length }}</h2>
+                <p>Days with saved measurements</p>
+            </div>
+
+        </div>
+
+        <!-- Weekly Sleep Chart -->
+        <section class="chart-container">
+
+            <h3>Weekly Sleep Analysis</h3>
+
+            <p>
+                Average sleep duration per recorded date.
+            </p>
+
+            <div class="dashboard-chart-area">
+                <canvas id="sleepChart"></canvas>
+            </div>
+
+            {% if not sleep_values %}
+                <p class="empty-state">
+                    No sleep data available yet.
+                    Submit your first prediction to populate this chart.
+                </p>
+            {% endif %}
+
+        </section>
+
+        <!-- Stress Distribution Chart -->
+        <section class="chart-container">
+
+            <h3>Stress Distribution</h3>
+
+            <p>
+                Number of saved predictions in each stress category.
+            </p>
+
+            <div class="dashboard-chart-area stress-chart-area">
+                <canvas id="stressChart"></canvas>
+            </div>
+
+            {% if total_predictions == 0 %}
+                <p class="empty-state">
+                    No stress predictions recorded yet.
+                </p>
+            {% endif %}
+
+        </section>
+
+        <!-- AI Recommendations -->
+        <section class="chart-container recommendation-container">
+
+            <h3>
+                <i class="fa-solid fa-lightbulb"></i>
+                Sleep Wellness Recommendations
+            </h3>
+
+            <ul class="recommendation-list">
+                <li>Maintain a consistent sleep and wake-up schedule.</li>
+                <li>Most adults should aim for 7–9 hours of sleep.</li>
+                <li>Reduce caffeine intake near bedtime.</li>
+                <li>Exercise regularly and allow time to relax.</li>
+                <li>Discuss persistent sleep difficulties with a healthcare professional.</li>
+            </ul>
+
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="chart-container quick-actions">
+
+            <h3>Quick Actions</h3>
+
+            <div class="quick-action-buttons">
+
+                <a href="/predict" class="btn-primary">
+                    <i class="fa-solid fa-plus"></i>
+                    New Prediction
+                </a>
+
+                <a href="/history" class="btn-secondary">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    View History
+                </a>
+
+                <a href="/sleep_analysis" class="btn-secondary">
+                    <i class="fa-solid fa-moon"></i>
+                    Sleep Analytics
+                </a>
+
+                <a href="/family" class="btn-secondary">
+                    <i class="fa-solid fa-users"></i>
+                    Family & Friends
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<!-- Chart.js must load before initializing charts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Data supplied by the Flask dashboard route
+    const sleepLabels = {{ sleep_labels | tojson }};
+    const sleepValues = {{ sleep_values | tojson }};
+    const stressCounts = {{ stress_counts | tojson }};
+
+    // Greeting
+    const greeting = document.getElementById("greeting");
+    const hour = new Date().getHours();
+
+    if (hour < 12) {
+        greeting.textContent = "Good morning!";
+    } else if (hour < 17) {
+        greeting.textContent = "Good afternoon!";
+    } else {
+        greeting.textContent = "Good evening!";
+    }
+
+    // Weekly Sleep Analysis
+    const sleepCanvas = document.getElementById("sleepChart");
+
+    if (sleepCanvas && typeof Chart !== "undefined") {
+
+        new Chart(sleepCanvas, {
+            type: "line",
+
+            data: {
+                labels: sleepLabels,
+
+                datasets: [{
+                    label: "Average Sleep (hours)",
+                    data: sleepValues,
+                    borderColor: "#6366f1",
+                    backgroundColor: "rgba(99, 102, 241, 0.15)",
+                    fill: true,
+                    tension: 0.35,
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    pointHoverRadius: 7
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: "Sleep Hours"
+                        }
+                    },
+
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Recorded Date"
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: "top"
+                    }
+                }
+            }
+        });
+    }
+
+    // Stress Distribution
+    const stressCanvas = document.getElementById("stressChart");
+
+    if (stressCanvas && typeof Chart !== "undefined") {
+
+        new Chart(stressCanvas, {
+            type: "doughnut",
+
+            data: {
+                labels: ["Low", "Moderate", "High"],
+
+                datasets: [{
+                    data: [
+                        stressCounts.Low,
+                        stressCounts.Moderate,
+                        stressCounts.High
+                    ],
+
+                    backgroundColor: [
+                        "#22c55e",
+                        "#f59e0b",
+                        "#ef4444"
+                    ],
+
+                    borderColor: "#ffffff",
+                    borderWidth: 3,
+                    hoverOffset: 8
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
+        });
+    }
+
+});
+</script>
+
+{% endblock %}

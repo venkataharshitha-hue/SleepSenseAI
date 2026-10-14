@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google Fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="nav-left">
+
+            <a href="/" class="logo">
+
+                <i class="fa-solid fa-brain"></i>
+
+                SleepSenseAI
+
+            </a>
+
+        </div>
+
+        <div class="nav-center">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/predict">
+                Prediction
+            </a>
+
+            <a href="/history">
+                History
+            </a>
+
+            <a href="/contacts">
+                Contacts
+            </a>
+
+        </div>
+
+        <div class="nav-right">
+
+            <button
+                id="themeToggle"
+                class="theme-btn">
+
+                <i class="fa-solid fa-moon"></i>
+
+            </button>
+
+            {% if session.get('user_id') %}
+
+                <a href="/profile"
+                   class="profile-btn">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </a>
+
+                <a href="/logout"
+                   class="btn-secondary">
+
+                    Logout
+
+                </a>
+
+            {% else %}
+
+                <a href="/login"
+                   class="btn-secondary">
+
+                    Login
+
+                </a>
+
+                <a href="/register"
+                   class="btn-primary">
+
+                    Register
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </nav>
+
+   <!-- FLASH MESSAGES -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+                <div class="flash-message {{ category }}">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+{% endwith %}
+
+    <!-- PAGE CONTENT -->
+
+    <div class="page-content">
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-column">
+
+                <h3>
+                    SleepSenseAI
+                </h3>
+
+                <p>
+
+                    AI-powered stress prediction
+                    and sleep wellness platform.
+
+                </p>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>
+                    Quick Links
+                </h3>
+
+                <a href="/">
+                    Home
+                </a>
+
+                <a href="/dashboard">
+                    Dashboard
+                </a>
+
+                <a href="/predict">
+                    Prediction
+                </a>
+
+                <a href="/history">
+                    History
+                </a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>
+                    Resources
+                </h3>
+
+                <a href="#">
+                    Documentation
+                </a>
+
+                <a href="#">
+                    Privacy Policy
+                </a>
+
+                <a href="#">
+                    Terms & Conditions
+                </a>
+
+            </div>
+
+            <div class="footer-column">
+
+                <h3>
+                    Follow Us
+                </h3>
+
+                <div class="social-icons">
+
+                    <a href="#">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            © 2026 SleepSenseAI.
+            All Rights Reserved.
+
+        </div>
+
+    </footer>
+
+    <!-- JS -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login | SleepSenseAI{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-card">
+
+        <div style="text-align:center; margin-bottom:30px;">
+
+            <i class="fa-solid fa-shield-halved"
+               style="
+               font-size:60px;
+               color:#2563eb;
+               margin-bottom:15px;">
+            </i>
+
+            <h2>
+                Admin Portal
+            </h2>
+
+            <p style="color:#64748b;">
+                Authorized administrators only.
+            </p>
+
+        </div>
+
+        <form method="POST" action="/admin_login">
+
+            <div class="form-group">
+
+                <label>
+                    Admin Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Enter admin username"
+                    required>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Admin Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter password"
+                    required>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn-primary"
+                style="
+                width:100%;
+                border:none;">
+
+                <i class="fa-solid fa-lock"></i>
+                Secure Login
+
+            </button>
+
+        </form>
+
+        <div
+        style="
+        margin-top:25px;
+        text-align:center;">
+
+            <a href="/login">
+                Return to User Login
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

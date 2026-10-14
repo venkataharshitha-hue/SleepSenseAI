@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}Family Contacts | SleepSenseAI{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-brain"></i>
+            SleepSenseAI
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="/dashboard">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="/predict">
+                <i class="fa-solid fa-microchip"></i>
+                Predict Stress
+            </a>
+
+            <a href="/history">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+            </a>
+
+            <a href="/profile">
+                <i class="fa-solid fa-user"></i>
+                Profile
+            </a>
+
+            <a href="/contacts">
+                <i class="fa-solid fa-users"></i>
+                Family Contacts
+            </a>
+
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <div class="page-title">
+
+            <h1>
+                Family & Emergency Contacts
+            </h1>
+
+            <p>
+                Add trusted family members or friends who can receive wellness alerts.
+            </p>
+
+        </div>
+
+        <!-- Add Contact Form -->
+
+        <div class="chart-container">
+
+            <h3>
+                Add New Contact
+            </h3>
+
+            <br>
+
+            <form method="POST" action="/add_contact">
+
+                <div class="predict-grid">
+
+                    <div class="form-group">
+
+                        <label>
+                            Contact Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="contact_name"
+                            class="form-control"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Relationship
+                        </label>
+
+                        <input
+                            type="text"
+                            name="relationship"
+                            class="form-control"
+                            placeholder="Mother, Father, Friend..."
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            name="contact_email"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="contact_phone"
+                            class="form-control">
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                    style="border:none;">
+
+                    Add Contact
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Contact List -->
+
+        <div
+            class="table-container"
+            style="margin-top:25px;">
+
+            <h3 style="margin-bottom:20px;">
+                Saved Contacts
+            </h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Name</th>
+                        <th>Relationship</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for contact in contacts %}
+
+                    <tr>
+
+                        <td>
+                            {{ contact.contact_name }}
+                        </td>
+
+                        <td>
+                            {{ contact.relationship }}
+                        </td>
+
+                        <td>
+                            {{ contact.contact_email }}
+                        </td>
+
+                        <td>
+                            {{ contact.contact_phone }}
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/delete_contact/{{ contact.id }}"
+                                onclick="return confirmDelete()"
+                                class="btn-secondary">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Information Card -->
+
+        <div
+            class="chart-container"
+            style="margin-top:25px;">
+
+            <h3>
+                Why Add Family Contacts?
+            </h3>
+
+            <br>
+
+            <ul style="padding-left:20px;">
+
+                <li>
+                    Receive emergency wellness alerts.
+                </li>
+
+                <li>
+                    Enable support from trusted people.
+                </li>
+
+                <li>
+                    Share health monitoring information.
+                </li>
+
+                <li>
+                    Improve safety for high stress situations.
+                </li>
+
+                <li>
+                    Future integration with SMS and Email notifications.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

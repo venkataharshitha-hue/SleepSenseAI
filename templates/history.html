@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction History | SleepSenseAI{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-brain"></i>
+            SleepSenseAI
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="/dashboard">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </a>
+
+            <a href="/predict">
+                <i class="fa-solid fa-microchip"></i>
+                Predict Stress
+            </a>
+
+            <a href="/history">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+            </a>
+
+            <a href="/profile">
+                <i class="fa-solid fa-user"></i>
+                Profile
+            </a>
+
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <div class="page-title">
+
+            <h1>
+                Prediction History
+            </h1>
+
+            <p>
+                View all previous AI stress predictions.
+            </p>
+
+        </div>
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search prediction history...">
+
+            <button>
+                Search
+            </button>
+
+        </div>
+
+        <!-- Table -->
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Date</th>
+
+                        <th>Heart Rate</th>
+
+                        <th>Sleep Hours</th>
+
+                        <th>Stress Level</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in history %}
+
+                    <tr>
+
+                        <td>
+                            {{ row.id }}
+                        </td>
+
+                        <td>
+                            {{ row.prediction_date }}
+                        </td>
+
+                        <td>
+                            {{ row.heart_rate }}
+                        </td>
+
+                        <td>
+                            {{ row.sleep_hours }}
+                        </td>
+
+                        <td>
+
+                            {% if row.stress_level == "Low" %}
+
+                                <span class="badge badge-low">
+                                    Low
+                                </span>
+
+                            {% elif row.stress_level == "Moderate" %}
+
+                                <span class="badge badge-medium">
+                                    Moderate
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge badge-high">
+                                    High
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Statistics -->
+
+        <div
+            class="dashboard-cards"
+            style="margin-top:25px;">
+
+            <div class="dashboard-card">
+
+                <h4>
+                    Total Predictions
+                </h4>
+
+                <h2>
+                    {{ history|length }}
+                </h2>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h4>
+                    Latest Status
+                </h4>
+
+                <h2>
+                    Active
+                </h2>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h4>
+                    Monitoring
+                </h4>
+
+                <h2>
+                    Enabled
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+
+        <div
+            style="
+            margin-top:25px;
+            display:flex;
+            gap:15px;
+            flex-wrap:wrap;">
+
+            <button
+                onclick="window.print()"
+                class="btn-primary">
+
+                Export Report
+
+            </button>
+
+            <a
+                href="/predict"
+                class="btn-secondary">
+
+                New Prediction
+
+            </a>
+
+        </div>
+
+    </main>
+
+</div>
+
+{% endblock %}

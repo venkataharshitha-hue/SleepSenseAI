@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard | SleepSenseAI{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-shield-halved"></i>
+            Admin Panel
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="/admin">
+                <i class="fa-solid fa-chart-pie"></i>
+                Dashboard
+            </a>
+
+            <a href="#users">
+                <i class="fa-solid fa-users"></i>
+                Users
+            </a>
+
+            <a href="#predictions">
+                <i class="fa-solid fa-brain"></i>
+                Predictions
+            </a>
+
+            <a href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <div class="admin-header">
+
+            <div>
+
+                <h1>
+                    Admin Dashboard
+                </h1>
+
+                <p>
+                    System monitoring and analytics.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Statistics -->
+
+        <div class="admin-grid">
+
+            <div class="admin-card users">
+
+                <h4>
+                    Total Users
+                </h4>
+
+                <h2>
+                    {{ total_users }}
+                </h2>
+
+            </div>
+
+            <div class="admin-card predictions">
+
+                <h4>
+                    Predictions
+                </h4>
+
+                <h2>
+                    {{ total_predictions }}
+                </h2>
+
+            </div>
+
+            <div class="admin-card active">
+
+                <h4>
+                    Active Users
+                </h4>
+
+                <h2>
+                    {{ active_users }}
+                </h2>
+
+            </div>
+
+            <div class="admin-card stress">
+
+                <h4>
+                    High Stress Cases
+                </h4>
+
+                <h2>
+                    {{ high_stress }}
+                </h2>
+
+            </div>
+
+        </div>
+
+        <!-- Analytics Chart -->
+
+        <div
+        class="chart-container"
+        style="margin-top:25px;">
+
+            <h3>
+                Stress Analytics
+            </h3>
+
+            <canvas id="stressChart"></canvas>
+
+        </div>
+
+        <!-- User Table -->
+
+        <div
+        class="table-container"
+        id="users"
+        style="margin-top:25px;">
+
+            <h3
+            style="margin-bottom:20px;">
+                Registered Users
+            </h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>
+                            {{ user.id }}
+                        </td>
+
+                        <td>
+                            {{ user.name }}
+                        </td>
+
+                        <td>
+                            {{ user.email }}
+                        </td>
+
+                        <td>
+                            {{ user.age }}
+                        </td>
+
+                        <td>
+                            {{ user.gender }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- Recent Predictions -->
+
+        <div
+        class="table-container"
+        id="predictions"
+        style="margin-top:25px;">
+
+            <h3
+            style="margin-bottom:20px;">
+                Recent Predictions
+            </h3>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Stress Level</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in predictions %}
+
+                    <tr>
+
+                        <td>
+                            {{ item.user_name }}
+                        </td>
+
+                        <td>
+                            {{ item.prediction_date }}
+                        </td>
+
+                        <td>
+
+                            {% if item.stress_level == 'Low' %}
+
+                            <span class="badge badge-low">
+                                Low
+                            </span>
+
+                            {% elif item.stress_level == 'Moderate' %}
+
+                            <span class="badge badge-medium">
+                                Moderate
+                            </span>
+
+                            {% else %}
+
+                            <span class="badge badge-high">
+                                High
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% endblock %}
